@@ -19,7 +19,7 @@ function getResponse($url, $proxy){
 	curl_setopt($ch, CURLOPT_VERBOSE, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 	curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($ch, CURLOPT_ENCODING , "gzip"); 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 	curl_setopt($ch, CURLOPT_URL, $url);

@@ -8,7 +8,8 @@
 	
 	// Processing for 1 detail url https://tookapic.com/photos/122676
 	$photo_url = "https://tookapic.com/photos/122676";
-	$node_photo = photo_url_parser($photo_url); // Photo html parser
+	//$node_photo = photo_url_parser($photo_url); // Photo html parser
+	create_node_photo($photo_url,$proxy);
 
 ?>
 
@@ -24,12 +25,14 @@ function photo_url_parser($url, $proxy){
 			$node_title = trim($e->plaintext); break;
 		}
 		print "Title: ".$node_title."\n";
+		$nodes['title'] = $node_title;
 
 		$node_desc = "";
 		foreach($html->find('.u-photo-description') as $e) {
 			$node_desc = trim($e->plaintext); break;
 		}
 		print "Description: ".$node_desc."\n";
+		$nodes['desc'] = $node_desc;
 
 		$node_tags = "";
 		foreach($html->find('.tags a') as $e) {
@@ -38,17 +41,48 @@ function photo_url_parser($url, $proxy){
 		}
 		$node_tags = rtrim($node_tags,','); // Remote last char ','
 		print "Tags: ".$node_tags."\n";
+		$nodes['tags'] = $node_tags;
 
 		$node_photo = "";
 		foreach($html->find('.lightbox__modal img') as $e) {
 			$node_photo = trim($e->src); break;
 		}
 		print "Photo url: ".$node_photo."\n";
+		$nodes['photo'] = $node_photo;
 		
+		print_r($nodes);
 		return $nodes;
 	} else {
 		print "Đã có lỗi xay rả khi get response from ".$url."\n"; return;
 	}
 	return $nodes;
+}
+
+function create_node_photo($url, $proxy){
+	// Firstly check if $url is alrealy crawled (I will code this later, store this in Redis)
+
+	$nodes = photo_url_parser($url, $proxy);	// Crawl & Parse html data into array structure
+
+	print "Starting save node into Solr ".$nodes['title']."...\n"	;
+
+	$node = new stdClass();	
+	$node->type = "stockphoto"; 
+	node_object_prepare($node);
+
+	$node->title    = $nodes['title']; // Title
+	$node->language = 'und';
+	$node->uid = 1;
+
+	$node->body['und'][0]['value']   = $nodes['desc']; // Description
+	$node->body['und'][0]['format']  = 'full_html';
+
+
+	$node->field_tag['und'][0]['value']   	= $nodes['tags']; // Tags
+	$node->field_photo['und'][0]['value']   = $nodes['photo']; // Photo URL
+	$node->field_source['und'][0]['value']  = $url; // Source URL
+
+	$node->status = 1; // Publish node (photo) 
+	
+	node_save($node); // Save photo into Database, Solr will index automatically
 }
 ?>
