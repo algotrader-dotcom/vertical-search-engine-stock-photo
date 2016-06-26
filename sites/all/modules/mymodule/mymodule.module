@@ -1,0 +1,11 @@
+<?php
+function mymodule_boot() { }
+
+function mymodule_apachesolr_index_document_build_node(ApacheSolrDocument $document, $entity, $env_id) {
+	//print_r($entity);
+	if ($entity->type == 'stockphoto'){
+		$node_field_tags = $entity->field_tag['und'][0]['value'];
+		$document->addField('ts_stockphoto_tags', $node_field_tags);	
+	}
+}
+?>

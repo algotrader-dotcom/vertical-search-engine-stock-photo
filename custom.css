@@ -1,0 +1,19 @@
+.img-wrapper .img-box {
+    height: 200px!important;
+    max-height: 200px!important;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+}
+.img-wrapper .img-box img {
+    max-width: 100%;
+    max-height: 100%!important;
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}

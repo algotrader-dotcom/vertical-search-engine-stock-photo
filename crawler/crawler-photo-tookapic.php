@@ -14,7 +14,7 @@
 	*/
 
 	// Process bunch of photos with paging
-	for($i = 1; $i < 100; $i++){
+	for($i = 1; $i < 10; $i++){
 		$photo_url_cate = "https://tookapic.com/photos?list=index&page=".$i;
 		$html = getResponse($photo_url_cate,$proxy);
 		if ($html){
@@ -24,7 +24,7 @@
 				create_node_photo($photo_url,$proxy);
 			}
 		}
-		sleep(1);
+		//sleep(1);
 	}
 
 ?>

@@ -27,8 +27,8 @@
       hide($content['links']);
       hide($content['field_tags']);
       //print render($content);
-      print "<h4>".$title."</h4>"."<br>";
-      print $node->body['und'][0]['value']."<br>";
+      print "<h4>".$title."</h4>";
+      print $node->body['und'][0]['value'];
 
       print '<div style="width:100%;float:left;margin-top:5px;margin-bottom:5px;">';
       print '<img class="is-loading is-loaded" style="max-width: 500px;" src="'.$node->field_photo['und'][0]['value'].'">';

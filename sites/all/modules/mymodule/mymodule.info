@@ -1,0 +1,4 @@
+;$Id$;
+name = My Module
+description = Override ApacheSolr
+core = 7.x
