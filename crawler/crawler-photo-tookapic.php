@@ -15,11 +15,12 @@
 
 	// Process bunch of photos with paging
 	for($i = 1; $i < 100; $i++){
-		$photo_url_cate = "https://stock.tookapic.com/photos?filter=free&list=all&page=".$i;
+		$photo_url_cate = "https://tookapic.com/photos?list=index&page=".$i;
 		$html = getResponse($photo_url_cate,$proxy);
 		if ($html){
 			foreach($html->find('ul.c-list-photo li a.photo__link') as $e) {
 				$photo_url = trim($e->href);
+				print $photo_url."\n";
 				create_node_photo($photo_url,$proxy);
 			}
 		}

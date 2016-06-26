@@ -1,0 +1,22 @@
+/**
+ * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
+ * remove this comment and start adding your styles to this file.
+ */
+h3{
+	font-size:15px !important;
+	line-height: 1.2 !important;
+}
+h2{
+	font-size:14px;
+	font-weight: bold;
+}
+h1{
+	font-size:20px;
+	font-weight: bold;
+}
+.page-search h1.page-header{ display:none;}
+.jumbotron{
+	padding-top: 0px;
+	padding-bottom: 0px;
+    padding: 15px !important;
+}

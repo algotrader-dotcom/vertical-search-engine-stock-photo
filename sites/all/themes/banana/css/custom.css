@@ -1,0 +1,182 @@
+body {
+    background: #FFF;
+    font: 14px/22px sans-serif;
+    color: #323947;
+    height: 100%;
+}
+a {
+	color:#1589b8;
+}
+
+@media screen and (max-width: 768px) {
+    h1{
+        font-size:18px;
+    }
+    h2{
+        font-size:18px;
+    }
+    h3{
+        font-size:18px;
+    }
+    body{
+    	font-size:12px;
+    }
+}
+
+#company .address {
+    border: 1px solid #dfeff3;
+    padding: 10px 15px 0;
+}
+#company .company-isthis {
+    clear: both;
+    margin: 0;
+    padding: 5px 0 15px;
+}
+#company dl {
+    float: left;
+    z-index: 999;
+    position: relative;
+}
+#company dl {
+    margin: 0;
+    padding-bottom: 5px;
+    font: 15px/18px sans-serif;
+}
+@media (min-width: 768px)
+.col-sm-6 {
+    width: 50%;
+}
+#company dt {
+    clear: left;
+    float: left;
+    color: #999;
+    width: 75px;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 10px;
+    font: 15px/20px sans-serif;
+}
+#company dd {
+    float: left;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 10px;
+    font: 15px/20px sans-serif;
+}
+#company-related {
+    float: left;
+    width: 100%;
+    padding-bottom: 30px;
+}
+.result .result-name a {
+    font: normal 18px/25px sans-serif;
+    margin-right: 10px;
+}
+.result-icons {
+    margin-left: 4px;
+    opacity: .9;
+}
+h1.page-header {
+    margin: 0;
+    font: 500 20px/40px sans-serif;
+    padding: 0px 0 15px;
+}
+
+#company-related .results {
+    width: 100%;
+}
+.results .result {
+    width: 100%;
+}
+.result {
+    clear: both;
+    float: left;
+    width: 100%;
+    padding: 8px 0px;
+    border-top: 1px solid #dfeff3;
+}
+.result .result-txt {
+    float: left;
+    width: 100%;
+    overflow: hidden;
+}
+.result .result-name {
+    display: inline-block;
+    width: 100%;
+}
+.result em {
+    color: #AAA;
+    font: 13px/25px sans-serif;
+    font-style: normal;
+    display: inline-block;
+}
+.result .result-cats {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.result .result-name a {
+    font: normal 15px/25px sans-serif;
+    margin-right: 10px;
+}
+.result em {
+    color: #AAA;
+    font: 13px/25px sans-serif;
+    font-style: normal;
+    display: inline-block;
+}
+.result .result-cats a {
+    padding-right: 10px;
+    font: 12px/14px sans-serif;
+    color: #539A2C;
+}
+span.small{
+    display: inline-block;
+    text-indent: -1000px;
+    text-transform: capitalize;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+#company-related .more {
+    display: inline-block;
+    margin: 15px 5px 0;
+}
+.result em a {
+    font-weight: normal;
+}
+h2.title {
+	font-size:20px; font-weight:500;
+}
+.footer .left {
+    float: left;
+}
+.footer .footer-bottom {
+    clear: both;
+    padding: 20px 15px 50px;
+    color: #95bbcb !important;
+}
+.footer #copytag {
+    margin-left: 30px;
+    float: right;
+}
+.footer a.add {
+    font-weight: bold;
+    margin-right: 15px;
+}
+.footer a {
+    font-weight: normal;
+}
+.footer .browser {
+  color: #95bbcb;
+}
+footer.footer {
+    color: #95bbcb;
+}
+a.city {
+    color: #539a2c;
+}
+.btn-search {
+    padding: 13px 18px !important;
+}
