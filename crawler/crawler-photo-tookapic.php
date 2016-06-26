@@ -19,8 +19,13 @@ function photo_url_parser($url, $proxy){
 	$html = getResponse($url,$proxy);
 		
 	if ($html){
+		$node_title = "";
+		foreach($html->find('h1.u-photo-title') as $e) {
+			$node_title = trim($e->plaintext); break;
+		}
+		print "Title: ".$node_title."\n";
+
 		return $nodes;
-		
 	} else {
 		print "Đã có lỗi xay rả khi get response from ".$url."\n"; return;
 	}
