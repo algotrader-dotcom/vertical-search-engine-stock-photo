@@ -6,10 +6,24 @@
 
 	$proxy = "";
 	
+	/*
 	// Processing for 1 detail url https://tookapic.com/photos/122676
 	$photo_url = "https://tookapic.com/photos/122676";
 	//$node_photo = photo_url_parser($photo_url); // Photo html parser
 	create_node_photo($photo_url,$proxy);
+	*/
+
+	// Process bunch of photos with paging
+	for($i = 1; $i < 10; $i++){
+		$photo_url_cate = "https://stock.tookapic.com/photos?filter=free&list=all&page=".$i;
+		$html = getResponse($photo_url_cate,$proxy);
+		if ($html){
+			foreach($html->find('ul.c-list-photo li a.photo__link') as $e) {
+				print $e->href."\n";
+			}
+		}
+		sleep(1);
+	}
 
 ?>
 
