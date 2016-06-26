@@ -9,17 +9,18 @@
 	/*
 	// Processing for 1 detail url https://tookapic.com/photos/122676
 	$photo_url = "https://tookapic.com/photos/122676";
-	//$node_photo = photo_url_parser($photo_url); // Photo html parser
 	create_node_photo($photo_url,$proxy);
+	return;
 	*/
 
 	// Process bunch of photos with paging
-	for($i = 1; $i < 10; $i++){
+	for($i = 1; $i < 100; $i++){
 		$photo_url_cate = "https://stock.tookapic.com/photos?filter=free&list=all&page=".$i;
 		$html = getResponse($photo_url_cate,$proxy);
 		if ($html){
 			foreach($html->find('ul.c-list-photo li a.photo__link') as $e) {
-				print $e->href."\n";
+				$photo_url = trim($e->href);
+				create_node_photo($photo_url,$proxy);
 			}
 		}
 		sleep(1);
@@ -59,10 +60,12 @@ function photo_url_parser($url, $proxy){
 
 		$node_photo = "";
 		foreach($html->find('.lightbox__modal img') as $e) {
-			$node_photo = trim($e->src); break;
+			$src = trim($e->src); 
+			//$src_base64 = base64_encode($src);
+			$node_photo = $src; break;
 		}
 		print "Photo url: ".$node_photo."\n";
-		$nodes['photo'] = $node_photo;
+		$nodes['photo'] = $node_photo; // Save node $url_photo as base64 encoded (because there is some issues when saved to MySQL)
 		
 		print_r($nodes);
 		return $nodes;
