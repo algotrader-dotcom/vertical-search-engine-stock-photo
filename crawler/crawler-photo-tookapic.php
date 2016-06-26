@@ -25,6 +25,20 @@ function photo_url_parser($url, $proxy){
 		}
 		print "Title: ".$node_title."\n";
 
+		$node_desc = "";
+		foreach($html->find('.u-photo-description') as $e) {
+			$node_desc = trim($e->plaintext); break;
+		}
+		print "Description: ".$node_desc."\n";
+
+		$node_tags = "";
+		foreach($html->find('.tags a') as $e) {
+			$item = $e->plaintext; //print $item."\n";
+			$node_tags = $node_tags.$item.",";
+		}
+		$node_tags = rtrim($node_tags,',');
+		print "Tags: ".$node_tags."\n";
+		
 		return $nodes;
 	} else {
 		print "Đã có lỗi xay rả khi get response from ".$url."\n"; return;

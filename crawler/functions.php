@@ -26,7 +26,7 @@ function getResponse($url, $proxy){
 	$http_data = curl_exec($ch);
 	
 	$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	print "getResponse: status code: ".$http_status."\n";
+	//print "getResponse: status code: ".$http_status."\n";
 
 	curl_close($ch);
 	
