@@ -2,11 +2,10 @@
 	define('DRUPAL_ROOT', '/home/vhosts/stock-demo.techblogsearch.com');
 	require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
 	drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
-	
-	//$q = 'label:nhan vien kinh doanh '.'AND'.' ts_job_location:Hồ Chí Minh';
-	//$q = 'label:asset';
+
 	$q = $_GET['q'];
-	//print $q;return;
+	//$q_param = 'label:'.$q.' OR '.'ts_stockphoto_tags:'.$q // Search in title OR tags
+	$q_param = 'ts_stockphoto_tags:'.$q; // Search in field tags only
 	
 	// Init Solr Object
 	$query = apachesolr_drupal_query();
@@ -16,12 +15,6 @@
   	
   	// Fields will be hightlighted in results
 	$query->addParam('hl', true); // Set hightlight
-	$query->addParam('hl.fl', label);
-	$query->addParam('hl.fl', teaser);
-
-	// Facet Results
-    //$query->addParam('facet', true); 
-    //$query->addParam('facet.field', 'ts_company_sic_name'); 
 
     // Paging
     $query->page = $p;
@@ -32,14 +25,14 @@
 
 	  	if ($response->code == '200' && $response->response->numFound > 0) {
 	  		$numFound = $response->response->numFound;
-	  		$results = apachesolr_search_process_response($response, $query); // Process response from Apache Solr to be more beautiful including highlight snippets (Module Rich Snippets must be DISABLED)
-	  		//print_r($results);
+	  		$results = apachesolr_search_process_response($response, $query); // Process response from Apache Solr to be more beautiful including ;
 		}
 	} catch  (Exception $e) {
 	  watchdog('solr_search', 'There was an error while searching: %error', array('%error' => $e->getMessage()), WATCHDOG_ERROR);
 	}
-	//return;
 ?>
+
+<!-- Render content -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 <html lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces;?>>
@@ -97,21 +90,20 @@
 			<?php foreach($results as $result){ 
 				//print_r($result);return;
 				$r_photo =  $result['fields']['sm_field_photo'][0];
-				$r_tags = $result['fields']['sm_field_tag'][0];
-
+				$r_tags  = $result['fields']['sm_field_tag'][0];
 				$r_title = $result['title']; 
-				$r_href = $result['link']; 
+				$r_href  = $result['link']; 
 				$r_snippet = htmlspecialchars_decode($result['snippet'], ENT_QUOTES);
 
 			?>
 			<div id="img-b66d369b4c9c06e1" class="col-md-3 img-wrapper clear-margin">
 				<div class="img-box">
-				    <img class="img-popover" src="<?php print $r_photo; ?>">
+				    <a href="<?php print $r_href; ?>"><img class="img-popover" src="<?php print $r_photo; ?>"></a>
 				</div>
 
 				<div class="image-desc">
 				    <h5>
-				      <span class="pull-left"><?php print $r_title; ?></span>
+				      <span class="pull-left"><?php print '<a href="'.$r_href.'">'.$r_title.'</a>'; ?></span>
 				      <span class="pull-left"><?php //print $r_tags; ?></span>
 				      <div class="clear"></div>
 				    </h5>

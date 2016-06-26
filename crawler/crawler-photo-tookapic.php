@@ -14,8 +14,8 @@
 	*/
 
 	// Process bunch of photos with paging
-	for($i = 1; $i < 10; $i++){
-		$photo_url_cate = "https://tookapic.com/photos?list=index&page=".$i;
+	for($i = 1; $i < 100; $i++){
+		$photo_url_cate = "https://tookapic.com/photos?sort=recent&list=index&page=".$i;
 		$html = getResponse($photo_url_cate,$proxy);
 		if ($html){
 			foreach($html->find('ul.c-list-photo li a.photo__link') as $e) {
@@ -66,7 +66,7 @@ function photo_url_parser($url, $proxy){
 			$node_photo = $src; break;
 		}
 		print "Photo url: ".$node_photo."\n";
-		$nodes['photo'] = $node_photo; // Save node $url_photo as base64 encoded (because there is some issues when saved to MySQL)
+		$nodes['photo'] = $node_photo;
 		
 		print_r($nodes);
 		return $nodes;
@@ -77,30 +77,33 @@ function photo_url_parser($url, $proxy){
 }
 
 function create_node_photo($url, $proxy){
-	// Firstly check if $url is alrealy crawled (I will code this later, store this in Redis)
+	try {
+		// Firstly check if $url is alrealy crawled (I will code this later, store this in Redis)
+		$nodes = photo_url_parser($url, $proxy);	// Crawl & Parse html data into array structure
 
-	$nodes = photo_url_parser($url, $proxy);	// Crawl & Parse html data into array structure
+		print "Starting save node into Solr ".$nodes['title']."...\n"	;
 
-	print "Starting save node into Solr ".$nodes['title']."...\n"	;
+		$node = new stdClass();	
+		$node->type = "stockphoto"; 
+		node_object_prepare($node);
 
-	$node = new stdClass();	
-	$node->type = "stockphoto"; 
-	node_object_prepare($node);
+		$node->title    = $nodes['title']; // Title
+		$node->language = 'und';
+		$node->uid = 1;
 
-	$node->title    = $nodes['title']; // Title
-	$node->language = 'und';
-	$node->uid = 1;
-
-	$node->body['und'][0]['value']   = $nodes['desc']; // Description
-	$node->body['und'][0]['format']  = 'full_html';
+		$node->body['und'][0]['value']   = $nodes['desc']; // Description
+		$node->body['und'][0]['format']  = 'full_html';
 
 
-	$node->field_tag['und'][0]['value']   	= $nodes['tags']; // Tags
-	$node->field_photo['und'][0]['value']   = $nodes['photo']; // Photo URL
-	$node->field_source['und'][0]['value']  = $url; // Source URL
+		$node->field_tag['und'][0]['value']   	= $nodes['tags']; // Tags
+		$node->field_photo['und'][0]['value']   = $nodes['photo']; // Photo URL
+		$node->field_source['und'][0]['value']  = $url; // Source URL
 
-	$node->status = 1; // Publish node (photo) 
-	
-	node_save($node); // Save photo into Database, Solr will index automatically
+		$node->status = 1; // Publish node (photo) 
+		
+		node_save($node); // Save photo into Database, Solr will index automatically
+	} catch (Exception $e) {
+		echo 'Caught exception: ',  $e->getMessage(), "\n";
+	}
 }
 ?>
