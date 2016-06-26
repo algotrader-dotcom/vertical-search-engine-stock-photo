@@ -36,8 +36,14 @@ function photo_url_parser($url, $proxy){
 			$item = $e->plaintext; //print $item."\n";
 			$node_tags = $node_tags.$item.",";
 		}
-		$node_tags = rtrim($node_tags,',');
+		$node_tags = rtrim($node_tags,','); // Remote last char ','
 		print "Tags: ".$node_tags."\n";
+
+		$node_photo = "";
+		foreach($html->find('.lightbox__modal img') as $e) {
+			$node_photo = trim($e->src); break;
+		}
+		print "Photo url: ".$node_photo."\n";
 		
 		return $nodes;
 	} else {
